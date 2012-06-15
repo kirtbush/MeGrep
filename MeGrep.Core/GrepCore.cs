@@ -65,7 +65,8 @@ namespace MeGrep.Core
                 lineCount++;
             }
 
-            System.Console.WriteLine("Query Complete, results found<{0}>", lineCount-1);
+            System.Console.WriteLine("Query Complete, results found<{0}>", Results.Count);
+            //TODO: do the real printouts of individual results here, after processing
 
             return Results;
         }

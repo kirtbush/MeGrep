@@ -37,7 +37,7 @@ namespace MeGrep.Looks.Forms
 
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("ListViewGroup", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("ListViewGroup", System.Windows.Forms.HorizontalAlignment.Left);
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.fileLabel = new System.Windows.Forms.Label();
             this.addedFileFormatListBox = new System.Windows.Forms.ListView();
@@ -125,10 +125,10 @@ namespace MeGrep.Looks.Forms
             // 
             // removeFileListBox
             // 
-            listViewGroup3.Header = "ListViewGroup";
-            listViewGroup3.Name = "listViewGroup1";
+            listViewGroup1.Header = "ListViewGroup";
+            listViewGroup1.Name = "listViewGroup1";
             this.removeFileListBox.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup3});
+            listViewGroup1});
             this.removeFileListBox.Location = new System.Drawing.Point(3, 48);
             this.removeFileListBox.Name = "removeFileListBox";
             this.tableLayoutPanel2.SetRowSpan(this.removeFileListBox, 2);
@@ -142,6 +142,7 @@ namespace MeGrep.Looks.Forms
             this.fileTextBox.Name = "fileTextBox";
             this.fileTextBox.Size = new System.Drawing.Size(174, 20);
             this.fileTextBox.TabIndex = 7;
+            this.fileTextBox.Text = "C:\\\\Dev\\\\GitHub\\\\MeGrep\\\\MeGrep.Tests\\\\basic_cheese.txt";
             // 
             // tableLayoutPanel1
             // 
@@ -283,7 +284,7 @@ namespace MeGrep.Looks.Forms
             }
 
             //TODO: check for nulls
-            GrepQuery myQuery = new GrepQuery(this.searchTextBox.Text, "C:\\Dev\\GitHub\\MeGrep\\MeGrep.Tests\\basic_cheese.txt");
+            GrepQuery myQuery = new GrepQuery(this.searchTextBox.Text, this.fileTextBox.Text);
             Console.WriteLine("Query Object Constructed, Running Query");
             myQuery.RunQuery();
             this.toolStripStatusLabel1.Text = "Search Complete...";
