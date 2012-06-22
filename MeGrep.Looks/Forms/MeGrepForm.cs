@@ -9,7 +9,7 @@ using MeGrep.Core;
 
 namespace MeGrep.Looks.Forms
 {
-    public class MeGrepForm : Form
+    public class MyForm : Form
     {
         private TableLayoutPanel tableLayoutPanel2;
         private TableLayoutPanel tableLayoutPanel1;
@@ -28,16 +28,17 @@ namespace MeGrep.Looks.Forms
         private ToolStripStatusLabel toolStripStatusLabel1;
         private ToolStripProgressBar toolStripProgressBar1;
         private System.ComponentModel.IContainer components;
+        private Label lastSearchLabel;
         private List<string> fileFormats;
 
-        public MeGrepForm () {
+        public MyForm () 
+        {
             InitializeComponent();
-            this.Text = ConfigurationSettings.AppSettings.Get("CakeBake");
         }
 
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("ListViewGroup", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("ListViewGroup", System.Windows.Forms.HorizontalAlignment.Left);
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.fileLabel = new System.Windows.Forms.Label();
             this.addedFileFormatListBox = new System.Windows.Forms.ListView();
@@ -54,6 +55,7 @@ namespace MeGrep.Looks.Forms
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripProgressBar1 = new System.Windows.Forms.ToolStripProgressBar();
+            this.lastSearchLabel = new System.Windows.Forms.Label();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -125,10 +127,10 @@ namespace MeGrep.Looks.Forms
             // 
             // removeFileListBox
             // 
-            listViewGroup1.Header = "ListViewGroup";
-            listViewGroup1.Name = "listViewGroup1";
+            listViewGroup2.Header = "ListViewGroup";
+            listViewGroup2.Name = "listViewGroup1";
             this.removeFileListBox.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup1});
+            listViewGroup2});
             this.removeFileListBox.Location = new System.Drawing.Point(3, 48);
             this.removeFileListBox.Name = "removeFileListBox";
             this.tableLayoutPanel2.SetRowSpan(this.removeFileListBox, 2);
@@ -142,7 +144,7 @@ namespace MeGrep.Looks.Forms
             this.fileTextBox.Name = "fileTextBox";
             this.fileTextBox.Size = new System.Drawing.Size(174, 20);
             this.fileTextBox.TabIndex = 7;
-            this.fileTextBox.Text = "C:\\\\Dev\\\\GitHub\\\\MeGrep\\\\MeGrep.Tests\\\\basic_cheese.txt";
+            this.fileTextBox.Text = "*.*";
             // 
             // tableLayoutPanel1
             // 
@@ -154,6 +156,7 @@ namespace MeGrep.Looks.Forms
             this.tableLayoutPanel1.Controls.Add(this.searchTextBox, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.searchButton, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.searchlabel, 1, 1);
+            this.tableLayoutPanel1.Controls.Add(this.lastSearchLabel, 2, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
@@ -239,11 +242,20 @@ namespace MeGrep.Looks.Forms
             this.toolStripProgressBar1.Name = "toolStripProgressBar1";
             this.toolStripProgressBar1.Size = new System.Drawing.Size(100, 16);
             // 
-            // MeGrepForm
+            // lastSearchLabel
+            // 
+            this.lastSearchLabel.AutoSize = true;
+            this.lastSearchLabel.Location = new System.Drawing.Point(420, 3);
+            this.lastSearchLabel.Margin = new System.Windows.Forms.Padding(3, 3, 3, 0);
+            this.lastSearchLabel.Name = "lastSearchLabel";
+            this.lastSearchLabel.Size = new System.Drawing.Size(0, 13);
+            this.lastSearchLabel.TabIndex = 4;
+            // 
+            // MyForm
             // 
             this.ClientSize = new System.Drawing.Size(801, 494);
             this.Controls.Add(this.splitContainer1);
-            this.Name = "MeGrepForm";
+            this.Name = "MyForm";
             this.Load += new System.EventHandler(this.MeGrepForm_Load);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
@@ -261,12 +273,9 @@ namespace MeGrep.Looks.Forms
         }
 
         private void MeGrepForm_Load(object sender, EventArgs e)
-        {
-            NameValueCollection appSettings = ConfigurationManager.AppSettings;
-
-            this.Text = ConfigurationSettings.AppSettings.Get("CheeseBake");
-
+        {    
             CenterToScreen();
+            this.Text = Settings1.Default.AppName;
         }
 
         private void SearchClicked(object sender, EventArgs e)
@@ -282,6 +291,10 @@ namespace MeGrep.Looks.Forms
                 Console.WriteLine("Search FAILED: EMPTY SEARCH FIELD");
                 return;
             }
+
+            Settings1.Default.LastSearchTime = DateTime.Now;
+            Settings1.Default.Save();
+            lastSearchLabel.Text = Settings1.Default.LastSearchTime.ToShortDateString();
 
             //TODO: check for nulls
             GrepQuery myQuery = new GrepQuery(this.searchTextBox.Text, this.fileTextBox.Text);

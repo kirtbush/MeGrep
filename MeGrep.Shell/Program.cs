@@ -11,7 +11,7 @@ namespace MeGrep.Shell
     {
         public static void Main(string[] args)
         {
-            Application.Run(new MeGrep.Looks.Forms.MeGrepForm());
+            Application.Run(new MeGrep.Looks.Forms.MyForm());
         }
     }
 }
